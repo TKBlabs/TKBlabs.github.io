@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TKB Labs — Mac用アプリの配布サイト</title>
+<meta name="description" content="TKB Labsが開発するMacアプリ、TKBshot・TKBcal・TKButil・TKBplorer・TKBraderの配布ページ。最新版のダウンロードとリリースノートはこちらから。">
+<link rel="icon" href="assets/icons/favicon-tkb-03.svg" type="image/svg+xml">
+<link rel="canonical" href="https://tkbtk.com/">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tkbtk.com/">
+<meta property="og:site_name" content="TKB Labs">
+<meta property="og:title" content="TKB Labs — Mac用アプリの配布サイト">
+<meta property="og:description" content="TKB Labsが開発するMacアプリ、TKBshot・TKBcal・TKButil・TKBplorer・TKBraderの配布ページ。最新版のダウンロードとリリースノートはこちらから。">
+<meta property="og:image" content="https://tkbtk.com/assets/screenshots/tkbshot.png">
+<meta property="og:image:width" content="886">
+<meta property="og:image:height" content="714">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TKB Labs — Mac用アプリの配布サイト">
+<meta name="twitter:description" content="TKB Labsが開発するMacアプリ、TKBshot・TKBcal・TKButil・TKBplorer・TKBraderの配布ページ。最新版のダウンロードとリリースノートはこちらから。">
+<meta name="twitter:image" content="https://tkbtk.com/assets/screenshots/tkbshot.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "TKB Labs",
+  "url": "https://tkbtk.com/",
+  "logo": "https://tkbtk.com/assets/icons/tkbshot.png",
+  "sameAs": []
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "url": "https://tkbtk.com/TKBshot/", "name": "TKBshot" },
+    { "@type": "ListItem", "position": 2, "url": "https://tkbtk.com/TKBcal/", "name": "TKBcal" },
+    { "@type": "ListItem", "position": 3, "url": "https://tkbtk.com/TKButil/", "name": "TKButil" },
+    { "@type": "ListItem", "position": 4, "url": "https://tkbtk.com/TKBplorer/", "name": "TKBplorer" },
+    { "@type": "ListItem", "position": 5, "url": "https://tkbtk.com/TKBrader/", "name": "TKBrader" }
+  ]
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2T42LFKKTJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-2T42LFKKTJ');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@400;500;600;700&amp;family=Zen+Kaku+Gothic+New:wght@400;500;700;900&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap">
+<link rel="stylesheet" href="assets/site.css?v=267b1ce4">
+<style>
+/* =========================================================
+   TKB Labs — shared design system
+   Motif: real macOS window chrome (traffic lights / titlebars)
+   as the one signature element, reused everywhere.
+   ========================================================= */
+
+:root{
+  /* --- color tokens --- */
+  --bg:        #16171b;
+  --bg-alt:    #1b1d22;
+  --surface:   #212328;
+  --surface-2: #26282e;
+  --titlebar:  #2b2d33;
+  --border:    #34363d;
+  --border-soft: #2a2c32;
+
+  --text:       #e9e7e2;
+  --text-dim:   #999da7;
+  --text-faint: #64676f;
+
+  /* app / accent identity colors (drawn from a syntax-highlight palette) */
+  --amber: #f0c05a;   /* TKBshot  — capture / flash   */
+  --teal:  #5fd3c4;   /* TKBcal   — calendar / type    */
+  --pink:  #ff6f9c;   /* TKButil  — keyword / utility  */
+  --blue:  #7bb0ff;   /* links / neutral accent        */
+
+  --ok:    #6fd08c;
+  --warn:  #f0c05a;
+  --fix:   #ff8a80;
+
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+
+  --shadow-window: 0 1px 0 rgba(255,255,255,0.03) inset, 0 20px 50px -20px rgba(0,0,0,0.6);
+
+  --font-display: 'M PLUS 1 Code', 'JetBrains Mono', monospace;
+  --font-body: 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+h1.headline{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(32px, 5vw, 54px);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  /* 改行は<br>で決めている。幅で折り返させると「気持ちよく」の途中などで切れてしまう。 */
+  max-width: none;
+}
+
+/* 2行目が1行に収まらない幅でだけ「気持ちよく」の後で改行する。 */
+.headline .br-narrow{ display: none; }
+
+@media (max-width: 600px){
+  .headline .br-narrow{ display: inline; }
+}
+
+.hero-sub{
+  margin-top: 24px;
+  /* 和文は1文字=1emなので、chではなくemで1行あたりの文字数（約30字）を決める。 */
+  max-width: 30em;
+  color: var(--text-dim);
+  font-size: 16.5px;
+}
+
+.app-icon img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.app-hero-icon{
+  width: 64px; height: 64px;
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  color: #14151a;
+  margin-bottom: 22px;
+}
+
+/* final polish */
+body{
+  background:
+    radial-gradient(circle at 15% 4%, rgba(123,176,255,.08), transparent 28rem),
+    radial-gradient(circle at 88% 26%, rgba(95,211,196,.055), transparent 24rem),
+    var(--bg);
+}
+
+.menubar-brand, .btn, .app-card{ -webkit-tap-highlight-color: transparent; }
+
+.app-card:hover{ border-color: #4b4e57; box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 28px 70px -28px rgba(0,0,0,.85); }
+
+.badge{ background: rgba(255,255,255,.02); }
+
+.btn-primary{ box-shadow: 0 8px 24px -12px currentColor; }
+
+@media (max-width: 640px){
+  .wrap, .menubar-inner{ padding-left: 20px; padding-right: 20px; }
+  .menubar-nav{ gap: 14px; }
+  .menubar-nav a:not(.pill){ display: none; }
+  .hero{ padding: 68px 0 46px; }
+  section{ padding: 52px 0; }
+  .section-head{ margin-bottom: 24px; }
+  .app-hero{ padding-bottom: 48px; }
+  .btn{ width: 100%; justify-content: center; }
+  .cta-row{ align-items: stretch !important; }
+  .spec-row{ gap: 18px; }
+  .spec-row span:last-child{ text-align: right; }
+}
+</style>
+</head>
+<body>
+
+  <header class="menubar">
+    <div class="menubar-inner">
+      <a href="https://tkbtk.com/" class="menubar-brand" style="text-decoration:none;">
+        <span class="dots">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        </span>
+        TKB Labs
+      </a>
+      <nav class="menubar-nav" aria-label="メインナビゲーション">
+        <a href="#apps">Apps</a>
+        <a href="#about">About</a>
+        <a href="https://tkbtk.com/wiki/">Wiki</a>
+        <a href="#" class="pill" data-email-link>Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <section class="hero">
+      <p class="eyebrow">macOS native / 個人開発</p>
+      <h1 class="headline">毎日の所作を、<br>少しだけ<span class="accent">気持ちよく</span><br class="br-narrow">変えるアプリ。</h1>
+      <p class="hero-sub">
+        スクリーンショット、年間カレンダー、日々のちょっとした作業を助けるユーティリティ。
+        TKB Labsが作っているMac用アプリを、このサイトから直接配布しています。
+        アップデートも常にここが最新です。
+      </p>
+      <div class="hero-meta">
+        <span><b>Apps</b> — 5</span>
+        <span><b>Platform</b> — macOS Tahoe 26以降</span>
+        <span><b>Chip</b> — Apple Silicon</span>
+        <span><b>Package</b> — ZIP</span>
+      </div>
+    </section>
+
+    <section id="apps">
+      <div class="section-head">
+        <h2 class="section-title">Apps</h2>
+        <span class="section-tag">// 5 apps, all free to download</span>
+      </div>
+
+      <div class="app-grid">
+
+        <a class="window app-card" href="https://tkbtk.com/TKBshot/" style="text-decoration:none;">
+          <div class="window-titlebar">
+            <span class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></span>
+            <span class="title">TKBshot.app</span>
+          </div>
+          <div class="app-card-body">
+            <div class="app-icon"><img src="assets/icons/tkbshot-192.webp" width="46" height="46" loading="lazy" decoding="async" alt="TKBshot icon"></div>
+            <div class="app-name">TKBshot</div>
+            <p class="app-desc">範囲選択と注釈に特化したスクリーンショットアプリ。保存・コピーまでを短い動線で完結。</p>
+            <div class="app-tags">
+              <span class="badge">Tahoe 26+</span>
+              <span class="badge">Apple Silicon</span>
+            </div>
+            <div class="app-card-foot">
+              <span class="link-arrow" style="color:var(--amber);">詳細・ダウンロード →</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="window app-card" href="https://tkbtk.com/TKBcal/" style="text-decoration:none;">
+          <div class="window-titlebar">
+            <span class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></span>
+            <span class="title">TKBcal.app</span>
+          </div>
+          <div class="app-card-body">
+            <div class="app-icon"><img src="assets/icons/tkbcal-192.webp" width="46" height="46" loading="lazy" decoding="async" alt="TKBcal icon"></div>
+            <div class="app-name">TKBcal</div>
+            <p class="app-desc">会計年度を軸に見渡せる年間カレンダー。祝日取得とユーザー休日登録に対応。</p>
+            <div class="app-tags">
+              <span class="badge">Tahoe 26+</span>
+              <span class="badge">Apple Silicon</span>
+            </div>
+            <div class="app-card-foot">
+              <span class="link-arrow" style="color:var(--teal);">詳細・ダウンロード →</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="window app-card" href="https://tkbtk.com/TKButil/" style="text-decoration:none;">
+          <div class="window-titlebar">
+            <span class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></span>
+            <span class="title">TKButil.app</span>
+          </div>
+          <div class="app-card-body">
+            <div class="app-icon"><img src="assets/icons/tkbutil-192.webp" width="46" height="46" loading="lazy" decoding="async" alt="TKButil icon"></div>
+            <div class="app-name">TKButil</div>
+            <p class="app-desc">クリップボード履歴を中心に、定型文・Dock・マウス・サウンド制御をまとめた道具箱。</p>
+            <div class="app-tags">
+              <span class="badge">Tahoe 26+</span>
+              <span class="badge">Apple Silicon</span>
+            </div>
+            <div class="app-card-foot">
+              <span class="link-arrow" style="color:var(--pink);">詳細・ダウンロード →</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="window app-card" href="TKBplorer/" style="text-decoration:none;" aria-label="TKBplorer 詳細・ダウンロードページへ">
+          <div class="window-titlebar">
+            <span class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></span>
+            <span class="title">TKBplorer.app</span>
+          </div>
+          <div class="app-card-body">
+            <div class="app-icon"><img src="assets/icons/tkbplorer-192.webp" width="46" height="46" loading="lazy" decoding="async" alt="TKBplorer icon"></div>
+            <div class="app-name">TKBplorer</div>
+            <p class="app-desc">タブと複数ペイン、進捗付きファイル操作、タグ、プレビュー、ネットワーク共有に対応したファイル管理アプリ。</p>
+            <div class="app-tags">
+              <span class="badge">Tahoe 26+</span>
+              <span class="badge">Apple Silicon</span>
+            </div>
+            <div class="app-card-foot">
+              <span class="link-arrow" style="color:var(--blue);">詳細・ダウンロード →</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="window app-card" href="https://tkbtk.com/TKBrader/" style="text-decoration:none;" aria-label="TKBrader 詳細・ダウンロードページへ">
+          <div class="window-titlebar">
+            <span class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></span>
+            <span class="title">TKBrader.app</span>
+          </div>
+          <div class="app-card-body">
+            <div class="app-icon"><img src="assets/icons/tkbrader-192.webp" width="46" height="46" loading="lazy" decoding="async" alt="TKBrader icon"></div>
+            <div class="app-name">TKBrader</div>
+            <p class="app-desc">詳しい地図と日本全体の地図を並べて、雨雲の実況と先の予測、台風、落雷、天気予報を1画面で見渡す雨雲レーダー。</p>
+            <div class="app-tags">
+              <span class="badge">Tahoe 26+</span>
+              <span class="badge">Apple Silicon</span>
+            </div>
+            <div class="app-card-foot">
+              <span class="link-arrow" style="color:#4fb6ff;">詳細・ダウンロード →</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="section-head">
+        <h2 class="section-title">About</h2>
+        <span class="section-tag">// who's building this</span>
+      </div>
+      <div class="overview">
+        <div class="overview-text">
+          <p>
+            TKB Labsは、日々のMac作業に小さく馴染む道具を作っている個人開発プロジェクトです。
+            大きな課題を解決するアプリではなく、「毎回ちょっと面倒だったこと」を無くすことを目的にしています。
+          </p>
+          <p>
+            すべてのアプリはこのサイトから直接配布しており、アップデートもここで随時公開します。
+            不具合報告や機能のご要望は、各アプリページのREADMEに記載の連絡先からお気軽にどうぞ。
+          </p>
+          <p>
+            同様の機能を持つ満足のいくアプリが見当たらない場合に自分が使うため用に個人的に開発したものを置いています。
+            そのためほぼ自分専用のアプリになるため、クオリティや機能の過不足は大目に見てください。
+          </p>
+          <p>
+            また、生成AI利活用の実験も兼ねているため、本サイト及び本サイトの配布物はすべて生成AIにより作られています。
+            作者は開発及びインフラエンジニアですが、ほぼ100％生成AIで作成しています。
+          </p>
+        </div>
+        <div class="spec-card">
+          <h4>Distribution</h4>
+          <div class="spec-row"><span>配布形式</span><span>ZIP（直接配布）</span></div>
+          <div class="spec-row"><span>価格</span><span>すべて無料</span></div>
+          <div class="spec-row"><span>アップデート方法</span><span>アプリ内から自動アップデート</span></div>
+          <div class="spec-row"><span>対応OS</span><span>macOS Tahoe 26以降</span></div>
+          <div class="spec-row"><span>対応チップ</span><span>Apple Silicon</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>© 2026 TKB Labs — built on macOS, for macOS.</span>
+      <div class="footer-links">
+        <a href="#apps">Apps</a>
+        <a href="#" data-email-link>Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="contact.js"></script>
+  <script>
+// Minimal scroll-reveal — no libraries, respects reduced motion.
+(function () {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const targets = document.querySelectorAll('.reveal');
+
+  if (prefersReduced || !('IntersectionObserver' in window)) {
+    targets.forEach((el) => el.classList.add('in'));
+    return;
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+
+  targets.forEach((el) => io.observe(el));
+})();
+
+  </script>
+</body>
+</html>
